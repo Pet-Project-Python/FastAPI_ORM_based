@@ -1,0 +1,87 @@
+[tool.poetry]
+name = "base-microservice-kvell"
+version = "0.1.0"
+description = "This is a base service layout"
+authors = ["kvell"]
+license = "\"MIT\""
+
+[tool.poetry.dependencies]
+python = "3.10.*"
+uvicorn = "^0.17.6"
+fastapi = "0.78.0"
+pydantic = "^1.9.1"
+alembic = "^1.8.0"
+loguru = "^0.6.0"
+httpx = "^0.23.0"
+greenlet = "^1.1.2"
+asyncpg = "^0.26.0"
+sqlalchemy = {extras = ["asyncio"], version = "^1.4.45"}
+psycopg2-binary = "^2.9.5"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+isort = "^5.10.1"
+wemake-python-styleguide = "^0.16.1"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-asyncio = "^0.18.3"
+pytest-env = "^0.6.2"
+pytest-xdist = "^2.5.0"
+asgi-lifespan = "^1.0.1"
+coverage = "^6.4.1"
+python-dotenv = "^0.20.0"
+autoflake = "^1.4"
+mypy = "^0.971"
+flake8-fixme = "^1.1.1"
+pytest-mock = "^3.8.2"
+freezegun = "^1.2.1"
+
+[tool.isort]
+profile = "black"
+src_paths = ["app", "tests"]
+combine_as_imports = true
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+filterwarnings = "error"
+addopts = '''
+  --strict-markers
+  --tb=short
+  --cov=app
+  --cov=tests
+  --cov-branch
+  --cov-report=term-missing
+  --cov-report=html
+  --cov-report=xml
+  --no-cov-on-fail
+  --cov-fail-under=100
+  --numprocesses=auto
+  --asyncio-mode=auto
+'''
+
+env = [
+  "SECRET_KEY=secret",
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
